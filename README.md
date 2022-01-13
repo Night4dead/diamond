@@ -1,6 +1,6 @@
 [link to the kata](https://codingdojo.org/kata/Diamond/)
 
-![https://img.shields.io/badge/Night4dead-2021-%23f514c0](https://img.shields.io/badge/Night4dead-2021-%23f514c0)
+![https://img.shields.io/badge/Night4dead-2022-%23f514c0](https://img.shields.io/badge/Night4dead-2022-%23f514c0)
 
 # Diamond Kata
 
