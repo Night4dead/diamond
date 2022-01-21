@@ -22,6 +22,30 @@ result:
 >     A
 > ```
 
+## run the program
+
+clone the repository: 
+
+>```bash
+>   git clone https://github.com/Night4dead/diamond.git
+>```
+
+then go into the cloned repository: 
+>```bash
+>   cd diamond/
+>```
+
+then you can compile the program: 
+>```bash
+>   gcc diamond.c -o diamond
+>```
+
+Now you can run the program as such:
+>```bash
+>   ./diamond <letter>
+>```
+
+
 ## Language used
 
 ![c programming language](https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/695px-C_Programming_Language.svg.png)
