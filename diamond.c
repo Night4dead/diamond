@@ -52,8 +52,37 @@ char sendMaj(char c){
 }
 
 int spaces(char c){
-    int start = c - 64;
+    int start = c - 65;
     return start;
+}
+
+int midspaces(int alpha){
+    return alpha + ( alpha > 1 ? alpha - 1 : 0);
+}
+
+void genLine(char *diamond, char c, int space){
+    int mid = midspaces(spaces(c));
+    char *spacer = " ";
+    char ch[1] = " "; 
+    ch[0] = c;
+    char *line;
+    line = malloc(sizeof(char)*( strlen(TAB) + mid + 1));
+
+    strcpy(line, TAB);
+    for(int i=0; i < space; i++){
+        strcat(line, spacer);
+    }
+    strcat(line, ch);
+    if(mid > 0){
+        for(int i=0; i < mid; i++){
+            strcat(line, spacer);
+        }
+        strcat(line, ch);
+    }
+    strcat(line, "\n");
+    strcat(diamond, line);
+
+    free(line);
 }
 
 /** 
@@ -61,70 +90,41 @@ int spaces(char c){
 */
 
 void triangle(int space, char wide, char *diamond){
-    char *top;
     int inner = 0;
     while( space > 0 ){
         char letter = 65 + inner;
-        int loop = (letter - 65)*2 - 1;
-        char *line;
-        line = malloc(sizeof(char) * (strlen(TAB) + space + 1));
-        strcpy(line, TAB);
-        for(int i = 0; i < space; i++){
-            strcat(line," ");
-        }
-        strcat(line,&letter);
-        if( inner > 0 ){
-            for( int i = 0; i < (letter - 65)*2 - 1; i++){
-                strcat(line," ");
-            }
-            strcat(line, &letter);
-        }
-        strcat(line,"\n");
-        printf("%s\n",line);
+        genLine(diamond, letter, space);
         space = space - 1;
         inner = inner + 1;
-        strcat(diamond,line);
-        free(line);
     }
 }
 
-void reverseTriangle(int maxspace, char wide, char *diamond){
-    char *bottom;
-    int inner = (wide - 65) - 1;
+void reverseTriangle(int space, char wide, char *diamond){
+    int inner = spaces(wide) - 1;
     int front = 1;
-    while( maxspace > 0 ) {
+    while( front < space + 1 ) {
         char letter = 65 + inner;
-        int loop = (letter - 65)*2 - 1;
-        char *line;
-        line = malloc(sizeof(char) * (strlen(TAB) + maxspace + 1));
-        strcpy(line, TAB);
-        for(int i = 0; i < front+1; i++){
-            strcat(line," ");
-        }
-        strcat(line, &letter);
-        if(inner > 0){
-            for( int i = 0; i < loop; i++){
-                strcat(line," ");
-            }
-            strcat(line, &letter);
-        }
-        strcat(line,"\n");
-        printf("%s\n",line);
+        genLine(diamond, letter, front + 1);
         inner = inner - 1;
-        maxspace = maxspace - 1;
         front = front + 1;
-        strcat(diamond,line);
-        free(line);
     }
 }
 
-char *getDiamond(char wide){
+void getDiamond(char wide){
     char *diamond;
-    int space = spaces(wide);
-    diamond = malloc(sizeof(char) * ((strlen(TAB) + space + 1)*2*wide));
+    int space = spaces(wide) + 1;
+    int mid = midspaces(space-1);
+
+    diamond = malloc(sizeof(char) * (strlen(TAB) + 2 + mid + strlen("\n")) * mid );
+
     triangle(space, wide, diamond);
     reverseTriangle(space-1, wide, diamond);
-    return diamond;
+
+    int res = printf("\n%s\n",diamond);
+
+    if(res == 0){
+        free(diamond);
+    }
 }
 
 
@@ -149,8 +149,6 @@ char readInput(int argc, const char *argv[]){
 int main(int argc, char const *argv[]) {
     printf("%s \n", TITLE);
     char letter = readInput(argc, argv);
-    char *diamond;
-    diamond = getDiamond(letter);
-    printf("\n%s\n",diamond);
+    getDiamond(letter);
     return 0;
 }
